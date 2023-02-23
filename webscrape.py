@@ -16,6 +16,7 @@ api = tweepy.API(auth)
 if isinstance(api, tweepy.API):
     # Search Twitter for mentions of the stock market
     tweets = api.search_tweets("stockmarket", count=100)
+    totalscore = 0
 
     # Loop over the tweets and extract the text and sentiment score
     for tweet in tweets:
@@ -28,12 +29,15 @@ if isinstance(api, tweepy.API):
             if word.startswith("$"):
                 # Increase the score if the word starts with $ (indicating a positive sentiment)
                 score += 1
+                totalscore += 1
             elif word.startswith("!"):
                 # Decrease the score if the word starts with ! (indicating a negative sentiment)
                 score -= 1
+                totalscore -= 1
 
         # Print the tweet text and sentiment score
         print(text, score)
+    print("The total score is: ", totalscore)
 elif type(api) == type(None):
     print("Error: the API Object is None")
 
